@@ -5,96 +5,50 @@
 #                                                     +:+ +:+         +:+      #
 #    By: arkim <arkim@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/07/22 20:40:49 by arkim             #+#    #+#              #
-#    Updated: 2019/08/08 00:53:51 by arkim            ###   ########.fr        #
+#    Created: 2019/08/17 16:46:43 by arkim             #+#    #+#              #
+#    Updated: 2019/10/30 18:21:23 by arkim            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
+NAME	=	libft.a
 
-SRCS =  ft_abs.c \
-		ft_atoi.c \
-		ft_bzero.c \
-		ft_countword.c \
-		ft_isalnum.c \
-		ft_isalpha.c \
-		ft_isascii.c \
-		ft_isdigit.c \
-		ft_isprint.c \
-		ft_iswspace.c \
-		ft_iswspace3.c \
-		ft_itoa.c \
-		ft_lstadd.c \
-		ft_lstdel.c \
-		ft_lstdelone.c \
-		ft_lstiter.c \
-		ft_lstmap.c \
-		ft_lstnew.c \
-		ft_memalloc.c \
-		ft_memccpy.c \
-		ft_memchr.c \
-		ft_memcmp.c \
-		ft_memcpy.c \
-		ft_memdel.c \
-		ft_memmove.c \
-		ft_memset.c \
-		ft_nbrlen.c \
-		ft_putchar.c \
-		ft_putchar_fd.c \
-		ft_putendl.c \
-		ft_putendl_fd.c \
-		ft_putnbr.c \
-		ft_putnbr_fd.c \
-		ft_putstr.c \
-		ft_putstr_fd.c \
-		ft_strcat.c \
-		ft_strchr.c \
-		ft_strclr.c \
-		ft_strcmp.c \
-		ft_strcpy.c \
-		ft_strdel.c \
-		ft_strdup.c \
-		ft_strequ.c \
-		ft_striter.c \
-		ft_striteri.c \
-		ft_strjoin.c \
-		ft_strlcat.c \
-		ft_strlen.c \
-		ft_strmap.c \
-		ft_strmapi.c \
-		ft_strncat.c \
-		ft_strncmp.c \
-		ft_strncpy.c \
-		ft_strnequ.c \
-		ft_strnew.c \
-		ft_strnstr.c \
-		ft_strrchr.c \
-		ft_strsplit.c \
-		ft_strstr.c \
-		ft_strsub.c \
-		ft_strswap.c \
-		ft_strtrim.c \
-		ft_swap.c \
-		ft_tolower.c \
-		ft_toupper.c \
-		ft_wordlen.c
+CC		=	gcc
+CFLAGS	=	-Wall -Wextra -Werror
 
-OBJECTS = $(SRCS:.c=.o)
+DIR_S	=	./srcs/
+DIR_O	=	./objs/
+DIR_I	=	./includes/
 
-INCLUDES = ./
+SRCS	=	$(wildcard $(DIR_S)*.c)
+OBJS	=	$(addprefix $(DIR_O), $(notdir $(SRCS:.c=.o)))
+
+GR		=	\033[0;32m
+RD		=	\033[0;31m
+YE		=	\033[0;33m
+PU		=	\033[1;35m
+EOC		=	\033[0m
+CHECK	=	$(GR)\xE2\x9C\x94$(EOC)
+BOLD	=	\033[1m
+ITALIC	=	\033[3m
 
 all : $(NAME)
 
-$(NAME) : $(SRCS) libft.h
-	@gcc -Wall -Wextra -Werror -c $(SRCS) -I $(INCLUDES)
-	@ar rc $(NAME) $(OBJECTS)
+$(NAME) : $(OBJS)
+	@ar rc $(NAME) $(OBJS)
 	@ranlib $(NAME)
+	@echo "\n\033[K$(EOC)\t[ $(CHECK) ]$(YE)  LIBFT :  $(GR)Compiled$(EOC)"
+
+$(DIR_O)%.o: $(DIR_S)%.c $(DIR_I)
+	@mkdir -p $(DIR_O)
+	@echo "\n\033[K\033[K$(EOC)\t[   ]$(YE)  LIBFT :  $(GR)Compiling  $(ITALIC)$<$(EOC)\033[2A";
+	@$(CC) $(CFLAGS) -I $(DIR_I) -o $@ -c $<
 
 clean :
-	@/bin/rm -f *.o
+	@/bin/rm -rf $(DIR_O)
 
 fclean : clean
 	@/bin/rm -f $(NAME)
+	@echo "\n\033[K$(EOC)\t[ $(CHECK) ]$(YE)  LIBFT :  $(GR)Removed$(EOC)"
 
 re : fclean all
 
